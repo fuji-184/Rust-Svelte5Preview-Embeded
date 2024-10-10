@@ -15,7 +15,7 @@
     onMount(() => {
         unsubscribe = clicked.subscribe(value => {
             eq = value;
-            console.log(eq);
+            // console.log(eq);
         });
 
         return () => {

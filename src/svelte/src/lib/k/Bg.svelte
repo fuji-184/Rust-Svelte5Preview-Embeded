@@ -15,13 +15,14 @@
   let isDrawing = false; 
   let unsubscribe;
   let jumlah = 0;
-  let notHasUseExistingAudio = visualizers.some(obj => obj.useExistingAudio === false);
-  let hasUseExistingAudio = visualizers.some(obj => obj.useExistingAudio === true);
+  let notHasUseExistingAudio = visualizers.some(({ useExistingAudio }) => !useExistingAudio);
+  let hasUseExistingAudio = visualizers.some(({ useExistingAudio }) => useExistingAudio);
+  // console.log(notHasUseExistingAudio)
 
   async function initWasm() {
     try {
       await init();
-      if (!sharedProcessor){
+      if (!sharedProcessor) {
         sharedProcessor = new SharedAudioProcessor();
         sharedProcessorStore.set(sharedProcessor);
       }
@@ -50,15 +51,16 @@
 
   async function handleAudio() {
     try {
-      if (!sharedProcessor) return;
-      isPlaying = true;
-
-      if (notHasUseExistingAudio) {
-        await sharedProcessor.process_audio_from_path("/Mortals.mp3");
+      if (sharedProcessor === null) {
+        await initWasm();
       }
 
-      clicked.set(true);
-      draw();
+      if (sharedProcessor) {
+        await sharedProcessor.process_audio_from_path("/Mortals.mp3");
+        isPlaying = true;
+        clicked.set(true);
+        draw();
+      }
     } catch (error) {
       console.error('Failed to process audio:', error);
     }
@@ -88,10 +90,6 @@
   }
 
   onMount(() => {
-    if (browser && notHasUseExistingAudio) {
-      initWasm();
-    }
-
     if (hasUseExistingAudio) {
       unsubscribe = clicked.subscribe(async (value) => {
         if (sharedProcessor === null) {
@@ -115,26 +113,20 @@
         if (value && !isDrawing) {
           isPlaying = true;
           isDrawing = true;
-          draw();
+          // console.log("hello")
+          draw(); 
         }
       });
     }
+  });
 
-    return () => {
-      if (unsubscribe) {
-        unsubscribe();
-      }
-      stopAudio();
-    };
+  onDestroy(() => {
+    if (unsubscribe) {
+      unsubscribe();
+    }
+    stopAudio();
   });
 </script>
-
-
-<!-- {#each visualizers as visualizer, i}
-  <div class="visualizer-container">
-    <canvas bind:this={canvasRefs[i]}></canvas>
-  </div>
-{/each} -->
 
 {#if notHasUseExistingAudio}
 <div class="control-panel">

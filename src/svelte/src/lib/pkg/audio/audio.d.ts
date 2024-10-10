@@ -35,6 +35,7 @@ export class SharedAudioProcessor {
   process_audio_from_path(path: string): Promise<void>;
   stop_audio(): void;
   draw(): void;
+  clear_all(): void;
 }
 export class Visualizer {
   free(): void;
@@ -55,9 +56,6 @@ export interface InitOutput {
   readonly __wbg_bg_free: (a: number, b: number) => void;
   readonly bg_new: (a: number, b: number) => void;
   readonly bg_draw: (a: number, b: number, c: number) => void;
-  readonly __wbg_visualizer_free: (a: number, b: number) => void;
-  readonly visualizer_new: (a: number, b: number) => void;
-  readonly visualizer_draw: (a: number, b: number, c: number) => void;
   readonly __wbg_sharedaudioprocessor_free: (a: number, b: number) => void;
   readonly sharedaudioprocessor_new: (a: number) => void;
   readonly sharedaudioprocessor_add_instance: (a: number, b: number, c: number, d: number) => void;
@@ -65,12 +63,17 @@ export interface InitOutput {
   readonly sharedaudioprocessor_process_audio_from_path: (a: number, b: number, c: number) => number;
   readonly sharedaudioprocessor_stop_audio: (a: number, b: number) => void;
   readonly sharedaudioprocessor_draw: (a: number) => void;
+  readonly sharedaudioprocessor_clear_all: (a: number) => void;
+  readonly __wbg_visualizer_free: (a: number, b: number) => void;
+  readonly visualizer_new: (a: number, b: number) => void;
+  readonly visualizer_draw: (a: number, b: number, c: number) => void;
   readonly __wbindgen_malloc: (a: number, b: number) => number;
   readonly __wbindgen_realloc: (a: number, b: number, c: number, d: number) => number;
   readonly __wbindgen_export_2: WebAssembly.Table;
-  readonly _dyn_core__ops__function__FnMut_____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h0a1be9467baac04b: (a: number, b: number) => void;
+  readonly _dyn_core__ops__function__FnMut_____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__hf5979e8b1efd9693: (a: number, b: number) => void;
   readonly _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h9b25215597f14b4b: (a: number, b: number, c: number) => void;
   readonly __wbindgen_add_to_stack_pointer: (a: number) => number;
+  readonly __wbindgen_free: (a: number, b: number, c: number) => void;
   readonly __wbindgen_exn_store: (a: number) => void;
   readonly wasm_bindgen__convert__closures__invoke2_mut__h480a8d395967bdb1: (a: number, b: number, c: number, d: number) => void;
 }

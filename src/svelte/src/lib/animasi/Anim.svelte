@@ -11,9 +11,11 @@
     let error = null;
     let instance = null;
 
-    $: if (containerRef) {
-        createAnimationInstance();
-    }
+    onMount(() => {
+        if (containerRef) {
+            createAnimationInstance();
+        }
+    })
 
     async function createAnimationInstance() {
         try {
